@@ -61,9 +61,10 @@ public class JanusGraphImporter {
 		{
 			int batchIndex = 0;
 			List<String> batchLines = new ArrayList<>();
-			while(batchIndex < batchSize || fileScanner.hasNextLine())
+			while(batchIndex < batchSize && fileScanner.hasNextLine())
 			{
 				batchLines.add(fileScanner.nextLine());
+				batchIndex++;
 			}
 			List<Thread> threads = new ArrayList<>();
 			for(int t = 0; t < threadCount; t++)
@@ -137,9 +138,10 @@ public class JanusGraphImporter {
 		{
 			int batchIndex = 0;
 			List<String> batchLines = new ArrayList<>();
-			while(batchIndex < batchSize || fileScanner.hasNextLine())
+			while(batchIndex < batchSize && fileScanner.hasNextLine())
 			{
 				batchLines.add(fileScanner.nextLine());
+				batchIndex++;
 			}
 			List<Thread> threads = new ArrayList<>();
 			for(int t = 0; t < threadCount; t++)
@@ -216,9 +218,10 @@ public class JanusGraphImporter {
 		{
 			int batchIndex = 0;
 			List<String> batchLines = new ArrayList<>();
-			while(batchIndex < batchSize || fileScanner.hasNextLine())
+			while(batchIndex < batchSize && fileScanner.hasNextLine())
 			{
 				batchLines.add(fileScanner.nextLine());
+				batchIndex++;
 			}
 			List<Thread> threads = new ArrayList<>();
 			for(int t = 0; t < threadCount; t++)
@@ -559,7 +562,7 @@ public class JanusGraphImporter {
 			graph.close();
 		}
 		
-		System.out.println("Finished loading data");
+		System.out.println();
 		System.out.println("Time needed for loading schema in milliseconds: " + (startLoadingVerticiesMills - startMills));
 		System.out.println("Time needed for loading verticies in milliseconds: " + (startLoadingPropertiesMills - startLoadingVerticiesMills));
 		System.out.println("Time needed for loading properties in milliseconds: " + (startLoadingEdgesMills - startLoadingPropertiesMills));
