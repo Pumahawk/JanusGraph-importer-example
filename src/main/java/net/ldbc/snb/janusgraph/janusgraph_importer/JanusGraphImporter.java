@@ -53,7 +53,6 @@ public class JanusGraphImporter {
 		File file = filePath.toFile();
 		Scanner fileScanner = new Scanner(file);
 
-		List<String> lines = Files.readAllLines(filePath);
 		final String[] colNames = fileScanner.nextLine().split("\\|");
 				
 		long lineCount = 0;
@@ -81,9 +80,9 @@ public class JanusGraphImporter {
 				{
 					break;
 				}
-				final List<String> threadLines = lines.subList(
+				final List<String> threadLines = batchLines.subList(
 						threadStartIndex, 
-						Math.min(threadStartIndex + (batchSize / threadCount), lines.size())
+						Math.min(threadStartIndex + (batchSize / threadCount), batchLines.size())
 						);
 				
 				LoadVerticiesThread thread = new LoadVerticiesThread(
