@@ -91,7 +91,7 @@ public class JanusGraphImporter {
 						idLabel,
 						entityName,
 						TX_MAX_RETRIES,
-						threadLines,
+						threadLines.toArray(new String[0]),
 						lineCount
 						);
 				

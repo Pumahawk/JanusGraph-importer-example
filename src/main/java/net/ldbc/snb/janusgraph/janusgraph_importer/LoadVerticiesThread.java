@@ -18,7 +18,7 @@ public class LoadVerticiesThread extends Thread{
 	private String idLabel;
 	private String entityName;
 	private long txMaxRetries;
-	private List<String> threadLines;
+	private String[] threadLines;
 	private long lineCount;
 	
 	public LoadVerticiesThread(
@@ -27,14 +27,14 @@ public class LoadVerticiesThread extends Thread{
 			String idLabel,
 			String entityName,
 			long txMaxRetries,
-			List<String> threadLines,
+			String[] threadLines,
 			long lineCount
 			) {
 		this.graph = graph;
 		this.colNames = colNames;
 		this.idLabel = idLabel;
 		this.entityName = entityName;
-		this. threadLines = threadLines;
+		this.threadLines = threadLines;
 		this.lineCount = lineCount;
 	}
 
@@ -50,12 +50,11 @@ public class LoadVerticiesThread extends Thread{
 
 		boolean txSucceeded = false;
 		int txFailCount = 0;
-		String[] lines = threadLines.toArray(new String[0]);
 		do {
 			JanusGraphTransaction tx = graph.newTransaction();
-			for (int i = 0; i < lines.length; i++) {
+			for (int i = 0; i < threadLines.length; i++) {
 
-				String line = lines[i];
+				String line = threadLines[i];
 
 				String[] colVals = line.split("\\|");
 				HashMap<Object, Object> propertiesMap = new HashMap<>();
@@ -106,7 +105,7 @@ public class LoadVerticiesThread extends Thread{
 			if (txFailCount > txMaxRetries) {
 				throw new RuntimeException(String.format(
 						"ERROR: Transaction failed %d times, (file lines [%d,%d])" +  
-								"aborting...", txFailCount, lineCount + 2, (lineCount + 2) + (lines.length - 1)));
+								"aborting...", txFailCount, lineCount + 2, (lineCount + 2) + (threadLines.length - 1)));
 			}
 		} while (!txSucceeded);
 
